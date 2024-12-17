@@ -1,0 +1,3 @@
+Deposit: +100 | New Balance: $100
+Deposit: +1000 | New Balance: $1000
+Withdraw: -50New Balance: $50
