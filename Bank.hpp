@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <unordered_map>
 
 using namespace std;
 
@@ -22,14 +23,18 @@ public:
     void Withdraw(Account& account);
     void Check_balance(Account& account);
     void transactions(Account& account);
-    void setName(const string& x);
+    void Set_Name(const string& X, const string& Y);
+    void getAccount() const;
+   // void setName(const string& x);
     string getName() const;
 
 
 
 private:
+    unordered_map<string, string> User_account;
     ofstream transaction_file;
     string name;
+    string password;
     Account checking;
     Account savings;
 

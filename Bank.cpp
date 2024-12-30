@@ -78,11 +78,15 @@ void Bank::Menu(){
 
 void Bank::Create_Account(){
 
-    string user_name;
+    string User_Name;
+    string Password;
 
-    cout << "Enter your name: " << endl;
-    cin >> user_name;
-    setName(user_name);
+    cout << "Enter your User name: ";
+    cin >> User_Name;
+    cout << "Enter your password: ";
+    cin >> Password;
+
+    Set_Name(User_Name, Password);
 
 }
 
@@ -146,11 +150,12 @@ void Bank::transactions(Account& account) {
 
 }
 
+void Bank::Set_Name(const std::string &X, const std::string &Y) {
 
-
-void Bank::setName(const string& x){
-    name = x;
+    name = X;
+    password = Y;
 }
+
 
 string Bank::getName() const{
     return name;
