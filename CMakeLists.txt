@@ -1,0 +1,1 @@
+add_executable(BankingSystem main.cpp Bank.cpp)

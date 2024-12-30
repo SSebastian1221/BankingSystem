@@ -9,10 +9,13 @@ Bank::Bank() {
     checking = {0,{}};
     savings = {0,{}};
     transaction_file.open("transaction_log.txt",ios::app);
+    Load_Accounts();
+
 }
 
 Bank::~Bank() {
 
+    Save_Accounts();
     if(transaction_file.is_open()){
         transaction_file.close();
     }
@@ -22,13 +25,90 @@ Bank::~Bank() {
 void Bank::Menu(){
 
     int user_input;
+
+    cout << "Welcome to Bank Suarez: " << endl;
+    cout << "Please choose a option: 1)Login 2)Create Account 3) Exit" << endl;
+    cin >> user_input;
+
+    switch (user_input) {
+        case 1:
+            Login();
+            break;
+        case 2:
+            Create_Account();
+            break;
+        case 3:
+            exit(0);
+            break;
+        default:
+            cout << "Invalid Choice" << endl;
+            break;
+    }
+}
+
+
+
+void Bank::Load_Accounts() {
+
+    ifstream infile("accounts.txt");
+    if (!infile.is_open()) {
+        cout << "Unable to open file" << endl;
+        return;
+    }
+
+    string username, password;
+
+    while (infile >> username >> password) {
+        User_account[username] = password;
+    }
+    infile.close();
+}
+
+
+void Bank::Save_Accounts() const {
+    ofstream outfile("accounts.txt");
+    if (!outfile.is_open()) {
+        cout << "Unable to open file" << endl;
+        return;
+    }
+
+    for (const auto& account : User_account) {
+        outfile << account.first << " " << account.second << endl;
+    }
+    outfile.close();
+}
+
+
+
+void Bank::Login() {
+
+    string username, password;
+
+    cout << "Please enter your Username: ";
+    cin >> username;
+
+        cout << "Please enter your Password: ";
+        cin >> password;
+
+        if (User_account[username] == password) {
+            cout << "Login succeeded" << endl;
+            Bank_Account();
+        } else {
+            cout << "Login failed" << endl;
+            Menu();
+        }
+
+    Bank_Account();
+}
+
+
+
+void Bank::Bank_Account() {
+
+    int user_input;
     int account_choice;
 
-    Create_Account();
-
-
     while(true) {
-
         cout << "Choose an account: 1) Checking 2) Savings 0) Exit" << endl;
         cin >> account_choice;
 
@@ -51,30 +131,29 @@ void Bank::Menu(){
         switch (user_input) {
             case 1:
                 deposit(*active_account);
-                break;
+            break;
 
             case 2:
                 Withdraw(*active_account);
-                break;
+            break;
 
             case 3:
                 Check_balance(*active_account);
-                break;
+            break;
 
             case 0:
                 cout << "Have a great day, see you soon!" << endl;
-                exit(0);
-                break;
+            exit(0);
+            break;
 
             default:
                 cout << "Not a vaild input! " << endl;
-                break;
-
+            break;
         }
-
     }
-
 }
+
+
 
 void Bank::Create_Account(){
 
@@ -86,9 +165,20 @@ void Bank::Create_Account(){
     cout << "Enter your password: ";
     cin >> Password;
 
-    Set_Name(User_Name, Password);
+    User_account[User_Name] = Password;
 
+    ofstream outfile("accounts.txt", ios::app);
+    if (outfile.is_open()) {
+        outfile <<User_Name << " " << Password << endl;
+        outfile.close();
+    }
+
+    cout << "Created account successful! " << endl;
+
+    Bank_Account();
 }
+
+
 
 void Bank::deposit(Account(& account)) {
 
@@ -106,8 +196,6 @@ void Bank::deposit(Account(& account)) {
     }else{
         cout << " Invalid amount! " << endl;
     }
-
-
 }
 
 
@@ -133,27 +221,18 @@ void Bank::Withdraw(Account& account){
     }else{
         cout << "Invalid amount! " << endl;
     }
-
-
 }
+
+
 
 void Bank::Check_balance(Account& account) {
     cout << "Your current balance is: $" << account.balance << endl;
 }
 
 
-
-
 void Bank::transactions(Account& account) {
 
     cout << "Your bank transactions are: " << account.balance << endl;
-
-}
-
-void Bank::Set_Name(const std::string &X, const std::string &Y) {
-
-    name = X;
-    password = Y;
 }
 
 

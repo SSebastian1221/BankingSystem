@@ -18,14 +18,15 @@ public:
     Bank();
     ~Bank();
     void Menu();
+    void Load_Accounts();
+    void Save_Accounts() const;
+    void Login();
+    void Bank_Account ();
     void Create_Account ();
     void deposit(Account& account);
     void Withdraw(Account& account);
     void Check_balance(Account& account);
     void transactions(Account& account);
-    void Set_Name(const string& X, const string& Y);
-    void getAccount() const;
-   // void setName(const string& x);
     string getName() const;
 
 

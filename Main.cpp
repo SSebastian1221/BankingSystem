@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include "Bank.hpp"
 using namespace std;
 
