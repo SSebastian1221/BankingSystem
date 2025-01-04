@@ -1,0 +1,41 @@
+# Build directories and temporary files
+/build/
+*.o
+*.out
+*.a
+*.so
+*.lo
+*.la
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+CMakeLists.txt.user
+
+# Docker files and images
+*.log
+*.pid
+*.db
+*.sock
+
+# Database data (avoid pushing actual database data to git)
+db_data/
+
+# credentials
+.env
+
+# IDE and editor files
+.vscode/
+*.swp
+*.swo
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.bak
+*.tmp
+*.swp
