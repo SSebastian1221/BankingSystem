@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iomanip>
 #include <limits>
+#include <openssl/sha.h>
 
 using namespace std;
 
@@ -13,6 +14,20 @@ const char* DB_HOST = std::getenv("DB_HOST");
 const char* DB_USER = std::getenv("DB_USER");
 const char* DB_PASSWORD = std::getenv("DB_PASSWORD");
 const char* DB_NAME = std::getenv("DB_NAME");
+
+
+string hashpassword(const string& password) {
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(password.c_str()), password.size(), hash);
+
+    std::stringstream ss;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+        ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+    }
+
+    return ss.str();
+}
+
 
 // Utility function to execute queries and return results
 vector<vector<string>> executeQuery(MYSQL* conn, const string& query) {
@@ -72,8 +87,11 @@ bool registerUser(MYSQL* conn) {
     cout << "Enter password: ";
     cin >> password;
 
+
+    string hashed = hashpassword(password);
+
     stringstream query;
-    query << "INSERT INTO users (username, password) VALUES ('" << username << "', '" << password << "')";
+    query << "INSERT INTO users (username, password_hash) VALUES ('" << username << "', '" << hashed << "')";
     if (mysql_query(conn, query.str().c_str())) {
         cerr << "Error registering user: " << mysql_error(conn) << endl;
         return false;
@@ -90,8 +108,12 @@ int loginUser(MYSQL* conn) {
     cout << "Enter password: ";
     cin >> password;
 
+    string hashed = hashpassword(password);
+
     stringstream query;
-    query << "SELECT id FROM users WHERE username = '" << username << "' AND password = '" << password << "'";
+
+    query << "SELECT id FROM users WHERE username = '" << username << "' AND password_hash = '" << hashed << "';";
+
     auto result = executeQuery(conn, query.str());
 
     if (!result.empty() && !result[0].empty()) {

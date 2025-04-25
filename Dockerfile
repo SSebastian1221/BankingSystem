@@ -7,6 +7,7 @@ FROM ubuntu:22.04 AS builder
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
+    libssl-dev \
     default-libmysqlclient-dev \
     && rm -rf /var/lib/apt/lists/*
 
@@ -30,6 +31,7 @@ FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y \
     libmysqlclient21 \
     default-libmysqlclient-dev \
+    libssl3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the built binary from the builder stage
