@@ -25,8 +25,8 @@ services:
         condition: service_healthy
     environment:
       DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
     stdin_open: true  # Keep STDIN open
     tty: true        # Allocate a pseudo-TTY

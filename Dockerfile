@@ -18,7 +18,7 @@ WORKDIR /app
 COPY . .
 
 # Create build directory and compile
-RUN mkdir build && cd build && \
+RUN mkdir -p build && cd build && \
     cmake .. && \
     make
 

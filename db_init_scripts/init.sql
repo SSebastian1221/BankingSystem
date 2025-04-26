@@ -17,6 +17,6 @@ CREATE TABLE IF NOT EXISTS accounts (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE USER IF NOT EXISTS 'your_db_user' IDENTIFIED BY 'your_db_password';
-GRANT ALL PRIVILEGES ON bank_system.* TO 'your_db_user';
+CREATE USER IF NOT EXISTS 'admin' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON bank_system.* TO 'admin';
 FLUSH PRIVILEGES;
